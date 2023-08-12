@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>A4 landscape</title>
+
+  <!-- Normalize or reset CSS with your favorite library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+
+  <!-- Load paper.css for happy printing -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
+
+  <!-- Set page size here: A5, A4 or A3 -->
+  <!-- Set also "landscape" if you need -->
+  <style>@page { size: A4 landscape }</style>
+</head>
+
+<!-- Set "A5", "A4" or "A3" for class name -->
+<!-- Set also "landscape" if you need -->
+<body class="A4 landscape">
+
+  <!-- Each sheet element should have the class "sheet" -->
+  <!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
+  <section class="sheet padding-10mm">
+
+    <!-- Write HTML just like a web page -->
+    <article>This is an A4 document (landscape).</article>
+
+  </section>
+
+</body>
+
+
+
+
+
+<section>
+
+<!-- Write HTML just like a web page -->
+<div class="white-box">
+								<h3><b>RECIEPT</b> <span class="pull-right">{{\App\HelperMethods\CustomMethods::prefix_zero($receipt->id)}}</span></h3>
+								<hr>
+								<div class="row">
+									<div class="col-md-12">
+										
+
+								<table style="width:100%">
+
+								<tr>
+									<td>
+
+									<div class="pull-left" style="float:left;">
+											<address>
+												<img src="{{config('app.url').'/storage/appimages/'.$appLogo}}" alt="logo"
+													class="logo-default"  width="50"/>
+												<p class="text-muted m-l-5">
+													{{$companyInfo->companyName}}, <br> {{$companyInfo->companyAddress}}, <br>
+													{{$companyInfo->companyWebsite}}, <br><span class="glyphicon glyphicon-phone"></span> - {{$companyInfo->companyMobileNumber}}
+												</p>
+											</address>
+										</div>
+									</td>
+									<td>
+									<div class="pull-right text-right" style="float:right;">
+											<address>
+												<p class="addr-font-h3">To,</p>
+												<p class="font-bold addr-font-h4">{{$receipt->client->fullName}}</p>
+												<p class="text-muted m-l-30">
+												{{$receipt->client->email}}, <br>{{$receipt->client->phoneNumber}} <br>
+												</p>
+												<p class="m-t-30">
+													<b>Receipt Date :</b> <i class="fa fa-calendar"></i> {{$receipt->created_at}}
+												</p>
+											</address>
+										</div>
+									</td>
+								</tr>
+								</table>
+										
+									</div>
+									
+									<div class="col-md-12">
+										<div class="">
+											<table class="table receiptDescription" cellspacing="0" style="width:100%">
+												<thead>
+													<tr>
+														<th class="text-center">#</th>
+														<th class="text-center">Apartment Name</th>
+														<th class="text-center">Checkin Date</th>
+														<th class="text-center">Checkout Date</th>
+			
+														<th class="text-center">No of Nights</th>
+														<th class="text-right">Charges</th>
+														@if(!empty($receipt->cautionFeeConverted))
+														<th class="text-right">Caution Fee</th>
+														@endif
+														<th class="text-right">Total Charges</th>
+														<th class="text-right">Amount Paid</th>
+														@if($receipt->outstanding>0)
+														<th class="text-right">Outstanding</th>
+														@endif
+
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td class="text-center">1</td>
+														<td class="text-center">{{$receipt->roomName}}</td>
+														<td class="text-center">{{$receipt->booking->checkin_date}}</td>
+														<td class="text-center">{{$receipt->booking->updated_checkout_date}}</td>
+														<td class="text-center">{{$receipt->booking->totalNights}}</td>
+														
+													
+														<td class="text-center">
+															{!!$chargesPerNightFormatted!!}</td>
+															@if(!empty($receipt->cautionFeeConverted))
+														<td class="text-center">{!!$cautionFeeConvertedFormatted!!}</td>
+														@endif
+														<td class="text-right">{!!$amountPayableAfterCautionFormatted!!}</td>
+														<td class="text-right">{!!$amountPaidAfterCautionFormatted!!}</td>
+
+													
+
+
+														@if($receipt->outstanding>0)
+							
+														<td class="text-right">{!!$outstandingFormatted!!}</td>
+														@endif
+														
+													</tr>
+													
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="pull-right m-t-30 text-right">
+										
+										@if($receipt->discount>0)
+										<p>Actual Cost: {!!$actualCostFormatted!!}<p>
+											<p>Discount : {!!$discountFormatted!!} </p>
+											<!--<p>VAT : {!!$receipt->foreignCurrency->currencySymbol!!}{{\App\HelperMethods\CustomMethods::generalCurrency($receipt->booking->vat)}} </p>-->
+											@endif
+											<p>Total charges +VAT : {!!$aggregateCostFormatted!!} </p>
+											<p>Total charges +Caution Fee : {!!$amountPayableAfterCautionFormatted!!}</p>
+										
+										<h3><b> Amount Paid:</b> {!!$amountPaidAfterCautionFormatted!!}</h3>
+									
+										</div>
+									
+										
+									
+									</div>
+								</div>
+							</div>
+
+
+</section>						
+
+</html>
